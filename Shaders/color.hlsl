@@ -9,7 +9,10 @@ cbuffer cbPerObject : register(b0)
 	float4x4 gWorldViewProj; 
 	float4x4 gScale3D;
 	float4x4 gRotate;
+	float gOffset;
 };
+
+
 
 struct VertexIn
 {
@@ -29,7 +32,17 @@ VertexOut VS(VertexIn vin)
 {
 	VertexOut vout;
 	
+	if (gOffset % 2)
+	{
+		vin.PosL = mul(vin.PosL, sin(gOffset) + 1);
+	}
+	else
+	{
+		/*vout.PosH = mul(vout.PosH, sin(gOffset) + 1);*/
+	}
+	
 	//vout.PosH = mul(float4(vin.PosL, 1.0f), gRotate);
+	
 	float4 ScalePos =mul(mul(float4(vin.PosL, 1.0f), gScale3D), gRotate);
 	//float4 RotatePos = mul(ScalePos, gScale3D);
 	vout.PosH = mul(ScalePos, gWorldViewProj);
@@ -38,6 +51,8 @@ VertexOut VS(VertexIn vin)
 
 	vout.Normal = vin.Normal;
     
+	
+
     return vout;
 }
 

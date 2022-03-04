@@ -51,6 +51,7 @@ protected:
 
 	bool InitMainWindow();
 	bool InitDirect3D();
+
 	void CreateCommandObjects();
 	void CreateSwapChain();
 

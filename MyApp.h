@@ -19,7 +19,6 @@ struct ActorInfo
 {
 	ActorTransform transform;
 	std::string AssetName;
-
 };
 
 struct AllActor
@@ -105,6 +104,7 @@ struct ObjectTransform
 	XMFLOAT4X4 WorldViewProj = MathHelper::Identity4x4();
 	XMFLOAT4X4 Scale3D = MathHelper::Identity4x4();
 	XMFLOAT4X4 Rotate = MathHelper::Identity4x4();
+	float Offset;
 };
 
 

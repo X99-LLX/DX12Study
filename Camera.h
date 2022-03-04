@@ -60,9 +60,9 @@ public:
 	void UpdateViewMatrix();
 
 public:
-	XMFLOAT3 mPosition = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 mPosition = { 0.0f,0.0f,50.0f };
 	XMFLOAT3 mUp = { 0.0f,1.0f,0.0f };
-	XMFLOAT3 mTarget = { 0.0f,0.0f,1.0f };
+	XMFLOAT3 mTarget = { 0.0f,0.0f,-1.0f };
 	XMFLOAT3 mRight = { 1.0f,0.0f,0.0f };
 
 	float mNearZ = 0.0f;

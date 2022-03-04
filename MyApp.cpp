@@ -21,10 +21,8 @@ bool MyApp::Initialize()
 	// Reset the command list to prep for initialization commands.
 	ThrowIfFailed(mCommandList->Reset(mDirectCmdListAlloc.Get(), nullptr));
 
-	mCamera.SetCameraPos(0.0f, 0.0f, 0.0f);
+	mCamera.SetCameraPos(0.0f, 0.0f, 1000.0f);
 
-	/*BuildDescriptorHeaps();
-	BuildConstantBuffers();*/
 
 	BuildRootSignature();
 	BuildShadersAndInputLayout();
@@ -51,8 +49,6 @@ void MyApp::OnResize()
 void MyApp::Update(const GameTimer& gt)
 {
 	OnKeyboardInput(gt);
-
-	
 	
 }
 
@@ -74,6 +70,8 @@ void MyApp::Draw(const GameTimer& gt)
 
 	mCommandList->SetGraphicsRootSignature(mRootSignature.Get());
 
+	
+
 	int index = 0;
 	for (auto mesh:mMeshGeo)
 	{
@@ -90,6 +88,7 @@ void MyApp::Draw(const GameTimer& gt)
 		XMStoreFloat4x4(&objConstants.WorldViewProj, XMMatrixTranspose(worldViewProj));
 		XMStoreFloat4x4(&objConstants.Scale3D, mesh.mScale3D);
 		XMStoreFloat4x4(&objConstants.Rotate, mesh.mRotate);
+		objConstants.Offset = gt.TotalTime();
 		mObjectCB[index]->CopyData(0, objConstants);
 		
 		mCommandList->SetGraphicsRootDescriptorTable(0, mCbvHeap[index]->GetGPUDescriptorHandleForHeapStart());
@@ -99,6 +98,8 @@ void MyApp::Draw(const GameTimer& gt)
 		index++;
 	}
 	
+
+
 
 	// Indicate a state transition on the resource usage.
 	mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
@@ -268,8 +269,10 @@ void MyApp::BuildGeometry()
 	{
 		mCbvHeap.resize(allactor.Actors.size());
 		mObjectCB.resize(allactor.Actors.size());
+
 		BuildDescriptorHeaps(Index);
 		BuildConstantBuffers(Index);
+
 		Index++;
 		FStaticMeshInfo TempMeshInfo = AssetIndex[actor.AssetName];
 		

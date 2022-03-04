@@ -3,7 +3,8 @@
 
 Camera::Camera()
 {
-	
+	UpdateViewMatrix();
+	SetLens(0.25f * MathHelper::Pi, 1.0f, 1.0f, 100000.0f);
 }
 
 Camera::~Camera()
@@ -140,6 +141,7 @@ void Camera::LookAt(DirectX::FXMVECTOR pos, DirectX::FXMVECTOR target, DirectX::
 	XMStoreFloat3(&mUp, U);
 
 	mInitView = true;
+
 }
 
 void Camera::LookAt(const DirectX::XMFLOAT3& pos, const DirectX::XMFLOAT3& target, const DirectX::XMFLOAT3& up)
